@@ -68,7 +68,7 @@
             let str_results = []
             // 遍历(排除choosed)
             for(let i = 0; i<localStorage.length; i++){
-                if (localStorage.key(i) !== 'choosed') {
+                if (localStorage.key(i) !== 'choosed' && localStorage.key(i) !== 'memberList') {
                     str_results.push(localStorage.getItem(localStorage.key(i)))
                 }
             }
