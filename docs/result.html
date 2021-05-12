@@ -4,7 +4,7 @@
     <meta name="screen-orientation" content="portrait">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
-    <title>年会抽奖小程序</title>
+    <title>名单抽选系统</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/wall.css">
     <style type="text/css">
@@ -61,9 +61,9 @@
 <body>
 <div id="main" class="wall">
     <div class="download-btn">
-        <button @click="exportExcel">导出获奖名单</button>
+        <button @click="exportExcel">导出被选中人员名单</button>
     </div>
-    <div class="result-title">获奖名单</div>
+    <div class="result-title">被选中人员名单</div>
     <div class="result-list" v-for="result in results">
         <div v-for="item in result">
             {{item}}
@@ -115,7 +115,7 @@
                 let link = document.createElement("a");
                 link.href = uri;
                 // 对下载的文件命名
-                link.download =  "中奖名单.csv";
+                link.download =  "被选中人员名单.csv";
                 link.click();
             }
         }
