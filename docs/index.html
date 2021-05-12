@@ -126,6 +126,9 @@
             background: red;
             color: #ffffff;
         }
+        button.pure-button.button-define-num {
+            width: 100px;
+        }
         .mask {
             -webkit-filter:blur(5px);
             filter:blur(5px);
@@ -147,6 +150,18 @@
             top: 50%;
             left: 50%;
         }
+        .modal-container {
+            position: absolute;
+            width: 300px;
+            height: 160px;
+            background: #fff;
+            border-radius: 5px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -162,7 +177,23 @@
         <input type="file" id="J_import" @change="importExcel" style="display: none;">
         <label for="J_import" class="pure-button import-button button-warning">导入数据</label>
     </div>
+    <div v-show="showDefineNumModal" class="modal-container define-num-modal">
+        <h5 style="padding: 10px;">设置抽奖人数</h5>
+        <input v-model="defineNum" style="padding: 10px; border: 1px solid #ccc;" type="number" placeholder="请输入中奖人数"/>
+        <div style="padding: 10px;">
+            <button class="pure-button" @click="showDefineNumModal=false">取消</button>
+            <button class="pure-button button-success" @click="saveDefineNum">确定</button>
+        </div>
+    </div>
     <div id="tools" class="tools">
+        <button
+            @click="onClickDefineNum"
+            class="pure-button"
+            :class="{ 'button-error': isDefineNum, 'button-define-num': isDefineNum }"
+        >
+            <span>自定义</span>
+            <span v-show="isDefineNum">({{selected}})</span>
+        </button>
         <button
             v-for="value in btns"
             @click="onClick(value)"
@@ -241,6 +272,13 @@
                     30, 10, 5, 2, 1
                 ],
                 isReady: false,
+                showDefineNumModal: false,
+                defineNum: null,
+            },
+            computed: {
+                isDefineNum: function() {
+                    return this.btns.indexOf(this.selected) === -1;
+                }
             },
             mounted () {
                 if (member.length > 0) {
@@ -330,6 +368,16 @@
                         }
                     };
                     reader.readAsBinaryString(file);
+                },
+                /** 点击自定义 */
+                onClickDefineNum: function() {
+                    // this.selected = 88;
+                    this.showDefineNumModal = true;
+                },
+                saveDefineNum: function() {
+                    this.selected = this.defineNum;
+                    this.defineNum = null;
+                    this.showDefineNumModal = false;
                 }
             }
         });

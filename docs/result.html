@@ -43,11 +43,26 @@
             margin-top: 100px;
             font-family: '幼圆';
         }
-
+        .download-btn {
+            margin-top: 20px;
+            text-align: right;
+            margin-right: 30px;
+            text-decoration: none;
+            color: white;
+        }
+        .download-btn button {
+            background: transparent;
+            border: 0;
+            color: #551A8b;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 <div id="main" class="wall">
+    <div class="download-btn">
+        <button @click="exportExcel">导出获奖名单</button>
+    </div>
     <div class="result-title">获奖名单</div>
     <div class="result-list" v-for="result in results">
         <div v-for="item in result">
@@ -56,6 +71,7 @@
     </div>
 </div>
 <script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/xlsx.full.min.js"></script>
 <script type="text/javascript">
     new Vue({
         el: '#main',
@@ -84,6 +100,25 @@
             results = results.sort((x, y) => { return x.length - y.length;})
             this.results = results
         },
+        methods: {
+            exportExcel: function() {
+                let str = `员工编号,员工名称\n`;
+                let list = this.results;
+                list.forEach((item) => {
+                    item.forEach(i => {
+                        str += i.split(' ').join(',') + '\n';
+                    });
+                    str += '\n';
+                });
+                let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(str);
+                // 通过创建a标签实现
+                let link = document.createElement("a");
+                link.href = uri;
+                // 对下载的文件命名
+                link.download =  "中奖名单.csv";
+                link.click();
+            }
+        }
     })
 </script>
 </body>
